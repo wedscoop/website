@@ -1,0 +1,41 @@
+{{ define "main" }}
+<section class="max-w-7xl mx-auto px-4 py-12">
+  <h1 class="text-3xl font-bold mb-8 capitalize" style="font-family: 'Raleway', sans-serif;">
+    {{ replace .Title "-" " " }}
+  </h1>
+
+  {{ $folder := printf "images/portfolio/%s" .Title }}
+  {{ $pattern := printf "%s/*.{jpg,jpeg,png,webp}" $folder }}
+  {{ $images := resources.Match $pattern }}
+
+  {{ if not (len $images) }}
+    <p class="text-gray-400 text-center py-8">No images found in this portfolio section.</p>
+  {{ else }}
+    <div class="gallery-masonry columns-1 sm:columns-1 md:columns-1 gap-1">
+      {{ range $images }}
+        <a href="{{ .RelPermalink }}" 
+           class="glightbox mb-1 block break-inside-avoid" 
+           data-gallery="gallery-{{ $.Page.File.Path | urlize }}">
+          <img src="{{ .RelPermalink }}" 
+               alt="{{ path.Base .Name }}" 
+               loading="lazy"
+               decoding="async"
+               class="w-full h-auto object-cover rounded-lg hover:opacity-90 transition">
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+</section>
+
+<style>
+.gallery-masonry {
+  column-gap: 0.25rem;
+}
+.gallery-masonry a {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+  break-inside: avoid;
+}
+</style>
+{{ end }}

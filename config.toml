@@ -1,0 +1,26 @@
+baseURL = "https://example.com/"
+languageCode = "en-us"
+title = "Wedscoop"
+theme = "minimal-dark"
+
+[params]
+  phone = "+917982921411"
+  email = "contact.wedscoop@gmail.com"
+  ga = "G-XXXXXXX" # GA4 ID placeholder
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  location = "locations"
+  venue = "venues"
+  shot = "shots"
+
+[outputs]
+  home = ["HTML","RSS","JSON"]
+
+[build]
+  writeStats = true
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true

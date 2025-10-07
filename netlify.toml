@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "public"
+
+[[redirects]]
+  from = "/estimate/*"
+  to = "https://estimator.vercel.app/:splat"
+  status = 200
+  force = true

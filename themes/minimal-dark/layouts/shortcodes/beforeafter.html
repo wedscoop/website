@@ -1,0 +1,26 @@
+{{ $beforeName := .Get "before" }}
+{{ $afterName := .Get "after" }}
+{{ $b := .Page.Resources.GetMatch $beforeName }}
+{{ $a := .Page.Resources.GetMatch $afterName }}
+<div class="ba-container relative overflow-hidden rounded-lg">
+  <img src="{{ $a.RelPermalink }}" alt="after" class="w-full h-auto block">
+  <div class="ba-overlay absolute inset-0 overflow-hidden" style="width:50%">
+    <img src="{{ $b.RelPermalink }}" alt="before" class="w-full h-auto block">
+  </div>
+  <input type="range" min="0" max="100" value="50" class="ba-range absolute bottom-2 left-1/2 transform -translate-x-1/2 w-11/12">
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.ba-range').forEach(function(r){
+    r.addEventListener('input', function(e){
+      var overlay = e.target.closest('.ba-container').querySelector('.ba-overlay');
+      overlay.style.width = e.target.value + '%';
+    });
+  });
+});
+</script>
+<style>
+.ba-container { max-width: 100%; }
+.ba-overlay { position: absolute; top:0; left:0; height:100%; }
+.ba-range { appearance: none; }
+</style>

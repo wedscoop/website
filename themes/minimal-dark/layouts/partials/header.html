@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#1F1F1F] text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="relative border-b border-gray-700" style="background-color: #1F1F1F;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+<!-- Logo + Mobile Hamburger -->
+<div class="flex items-center justify-center py-4">
+  
+  <!-- Hamburger (mobile only) -->
+  <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-200 hover:text-white absolute right-4">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+
+  <!-- Logo -->
+  <a href="{{ .Site.BaseURL }}" class="mx-auto">
+    <img class="h-7 md:h-10 w-auto object-contain" src="/images/logo.png" alt="Wedscoop">
+  </a>
+
+</div>
+
+      <!-- Desktop Menu (separate row) -->
+      <nav class="hidden md:flex justify-center space-x-6 text-gray-200 text-base pb-4">
+        <a href="/" class="hover:text-blue-400">Home</a>
+        <a href="/real-weddings/" class="hover:text-blue-400">Real Weddings</a>
+        <a href="/preweddings/" class="hover:text-blue-400">Preweddings</a>
+        <a href="/wedding-films/" class="hover:text-blue-400">Wedding Films</a>
+        <!-- <a href="/blog/" class="hover:text-blue-400">Blog</a> -->
+        <a href="/contact/" class="hover:text-blue-400">Contact</a>
+      </nav>
+
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 hidden flex flex-col items-center justify-center space-y-6 text-lg md:hidden" style="background-color: #1F1F1F;">
+      <a href="/" class="hover:text-blue-400">Home</a>
+      <a href="/real-weddings/" class="hover:text-blue-400">Real Weddings</a>
+      <a href="/preweddings/" class="hover:text-blue-400">Preweddings</a>
+      <a href="/wedding-films/" class="hover:text-blue-400">Wedding Films</a>
+      <a href="/blog/" class="hover:text-blue-400">Blog</a>
+      <a href="/contact/" class="hover:text-blue-400">Contact</a>
+      <button id="close-menu" class="absolute top-4 right-4 text-gray-200 hover:text-white text-2xl font-bold">✕</button>
+    </div>
+
+  </header>
+
+  <script>
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn = document.getElementById('close-menu');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>

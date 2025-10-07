@@ -1,0 +1,51 @@
+<!-- layouts/partials/stats.html -->
+<section class="bg-[#1F1F1F] py-12">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      
+      <!-- Weddings Counter -->
+      <div>
+        <p class="text-4xl font-bold text-white mb-2" id="weddings-counter">0</p>
+        <p class="text-gray-400 uppercase tracking-wide font-semibold">+ Weddings and Counting</p>
+      </div>
+
+      <!-- Happy Customers -->
+      <div>
+        <p class="text-4xl font-bold text-white mb-2" id="customers-counter">0</p>
+        <p class="text-gray-400 uppercase tracking-wide font-semibold">+ Happy Couples</p>
+      </div>
+
+      <!-- Locations -->
+      <div>
+        <p class="text-4xl font-bold text-white mb-2" id="locations-counter">0</p>
+        <p class="text-gray-400 uppercase tracking-wide font-semibold">+ Locations</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Counter Animation Script -->
+  <script>
+    // Simple counter animation
+    function animateCounter(id, target, duration = 2000) {
+      const element = document.getElementById(id);
+      let start = 0;
+      const increment = target / (duration / 50);
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          element.innerText = target.toLocaleString();
+          clearInterval(timer);
+        } else {
+          element.innerText = Math.floor(start).toLocaleString();
+        }
+      }, 50);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      animateCounter('weddings-counter',450);    // replace with your number
+      animateCounter('customers-counter', 500);   // replace with your number
+      animateCounter('locations-counter', 25);     // replace with your number
+    });
+  </script>
+</section>

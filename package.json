@@ -1,0 +1,18 @@
+{
+  "name": "wedscoop",
+  "version": "0.1.0",
+  "scripts": {
+"build:css": "tailwindcss -c tailwind.config.cjs -i assets/css/tailwind.css -o static/css/main.css --minify",
+"watch:css": "tailwindcss -c tailwind.config.cjs -i assets/css/tailwind.css -o static/css/main.css --watch",
+
+    "hugo:server": "hugo server -D",
+    "dev": "concurrently \"npm run watch:css\" \"npm run hugo:server\"",
+    "build": "npm run build:css && hugo"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^8.0.0"
+  }
+}

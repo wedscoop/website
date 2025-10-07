@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Weddings on Gallery</title>
+    <link>http://localhost:1313/tags/weddings/</link>
+    <description>Recent content in Weddings on Gallery</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <managingEditor>user@example.com (Your Name)</managingEditor>
+    <webMaster>user@example.com (Your Name)</webMaster>
+    <copyright>© Your Name</copyright>
+    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/weddings/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post</title>
+      <link>http://localhost:1313/blog/first-post/</link>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 +0200</pubDate><author>user@example.com (Your Name)</author>
+      <guid>http://localhost:1313/blog/first-post/</guid>
+      <description>&lt;p&gt;Here is the full content of the first post.&lt;/p&gt;&#xA;&lt;p&gt;You can write in &lt;strong&gt;Markdown&lt;/strong&gt;, add images, videos, shortcodes, etc.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

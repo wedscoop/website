@@ -1,0 +1,112 @@
+{{ define "main" }}
+<!-- Hero Carousel Section -->
+<section class="relative overflow-hidden h-[40vh] md:h-[60vh]">
+  <div x-data="heroCarousel()" x-init="init()" class="h-full relative">
+
+    <!-- Slides -->
+    <template x-for="(slide, index) in slides" :key="index">
+      <div
+        x-show="current === index"
+        x-transition:enter="transition-opacity duration-1000"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition-opacity duration-1000"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="absolute inset-0 bg-cover bg-center"
+        :style="`background-image: url(${slide});`">
+        <!-- Optional slight overlay if needed -->
+        <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+      </div>
+    </template>
+
+    <!-- Text Overlay -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 text-white">
+      <p class="mt-4 text-xl text-gray-100 max-w-2xl">Preserving Memories for Lifetime</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Portfolio Highlights -->
+<section class="py-16 bg-[#1F1F1F]">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-2xl font-bold mb-8 text-center" style="font-family: 'Raleway', sans-serif;">
+      Portfolio Highlights
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {{ $portfolioDir := "assets/images/portfolio" }}
+      {{ $folders := readDir $portfolioDir }}
+
+      {{ range $folders }}
+        {{ if .IsDir }}
+          {{ $folder := .Name }}
+          {{ $files := readDir (printf "%s/%s" $portfolioDir $folder) }}
+          {{ $firstImg := "" }}
+          {{ range $files }}
+            {{ if or (strings.HasSuffix .Name ".jpg") (strings.HasSuffix .Name ".jpeg") (strings.HasSuffix .Name ".png") (strings.HasSuffix .Name ".webp") }}
+              {{ $firstImg = printf "/images/portfolio/%s/%s" $folder .Name }}
+              {{ break }}
+            {{ end }}
+          {{ end }}
+
+          <a href="/portfolio/{{ $folder | urlize }}" 
+             class="block bg-[#2A2A2A] rounded-lg overflow-hidden hover:scale-105 transition shadow-lg">
+            {{ if $firstImg }}
+              <img src="{{ $firstImg }}" alt="{{ $folder }}" 
+                   class="w-full h-56 object-cover">
+            {{ else }}
+              <div class="w-full h-56 flex items-center justify-center bg-zinc-800 text-gray-500 italic">
+                No Image
+              </div>
+            {{ end }}
+            <div class="p-4 text-center">
+              <h3 class="text-lg font-semibold capitalize" style="font-family: 'Raleway', sans-serif;">
+                {{ replace $folder "-" " " }}
+              </h3>
+            </div>
+          </a>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+
+<!-- Reviews + Stats -->
+<section class="portfolio container mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    {{ partial "reviews.html" . }}
+    {{ partial "stats.html" . }}
+	{{ partial "quote-builder.html" . }}
+
+  </div>
+</section>
+
+<!-- Alpine.js Carousel Script -->
+<script>
+  function heroCarousel() {
+    return {
+      current: 0,
+      slides: [
+        '/images/hero/hero1.jpg',
+        '/images/hero/hero2.jpg',
+        '/images/hero/hero3.jpg'
+      ],
+      init() {
+        setInterval(() => {
+          this.next();
+        }, 5000); // auto slide every 5s
+      },
+      next() {
+        this.current = (this.current + 1) % this.slides.length;
+      },
+      prev() {
+        this.current = (this.current - 1 + this.slides.length) % this.slides.length;
+      }
+    }
+  }
+</script>
+{{ end }}

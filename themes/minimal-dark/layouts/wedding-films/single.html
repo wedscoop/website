@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <article class="container mx-auto">
+    <h1 class="text-3xl font-bold">{{ .Title }}</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      {{ $films := getJSON "data/weddingfilms.json" }}
+      {{ range $films }}
+        <div>
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe src="https://www.youtube.com/embed/{{ .videoId }}" frameborder="0" allowfullscreen class="w-full h-full rounded-xl"></iframe>
+          </div>
+          <p class="mt-2 text-gray-300 text-sm">{{ .title }}</p>
+        </div>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

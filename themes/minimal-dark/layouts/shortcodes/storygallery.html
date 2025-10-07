@@ -1,0 +1,157 @@
+{{ $images := $.Page.Resources.Match "gallery/*.{jpg,jpeg,png,webp}" }}
+{{ $storyblocks := .Page.Params.storyblocks }}
+
+{{ if not (len $images) }}
+  <p class="text-gray-400 text-center py-8">No images found in the gallery.</p>
+{{ else }}
+  <div class="story-gallery max-w-6xl mx-auto">
+
+    {{ $open := false }}
+
+    {{ range $i, $img := $images }}
+      {{ $name := path.Base $img.Name | lower }}
+      {{ $block := dict }}
+
+      <!-- ✅ Prefix Matching -->
+      {{ range $key, $value := $storyblocks }}
+        {{ $prefix := $key | lower }}
+        {{ if strings.HasPrefix $name $prefix }}
+          {{ $block = $value }}
+        {{ end }}
+      {{ end }}
+
+      {{ if $block }}
+        {{ if $open }}</div>{{ $open = false }}{{ end }}
+
+        <!-- Full-width Story Block -->
+        <section class="story-block fade-in-block">
+          {{ if eq $block.type "text" }}
+            <p class="text-gray-300 text-base md:text-lg leading-relaxed text-center mb-4"
+               style="font-family: 'Lato', sans-serif;">
+              {{ $block.content }}
+            </p>
+
+          {{ else if eq $block.type "youtube" }}
+            <div class="aspect-video w-full rounded-lg overflow-hidden shadow-lg mb-2">
+              <iframe
+                src="https://www.youtube.com/embed/{{ $block.videoId }}?rel=0"
+                frameborder="0"
+                allowfullscreen
+                class="w-full h-full">
+              </iframe>
+              {{ if $block.caption }}
+                <p class="text-gray-400 text-sm text-center mt-2">{{ $block.caption }}</p>
+              {{ end }}
+            </div>
+
+          {{ else if eq $block.type "quote" }}
+            <div class="relative w-full rounded-lg overflow-hidden shadow-md mb-2 fade-in-block">
+              <img src="{{ $img.RelPermalink }}" 
+                   alt="{{ $img.Name }}"
+                   class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent py-4 px-6">
+                <p class="italic text-[#d1d1d1] text-base md:text-xl font-light text-center leading-snug"
+                   style="font-family: 'Raleway', sans-serif;">
+                  “{{ $block.content }}”
+                </p>
+              </div>
+            </div>
+          {{ end }}
+        </section>
+
+      {{ else }}
+        {{ if not $open }}
+          <div class="gallery-grid mb-4">
+          {{ $open = true }}
+        {{ end }}
+
+        <!-- Masonry Image Tile -->
+        <a href="{{ $img.RelPermalink }}" 
+           class="glightbox block relative overflow-hidden rounded-lg shadow-md fade-in-tile"
+           data-gallery="gallery-{{ $.Page.File.Path | urlize }}">
+          <img src="{{ $img.RelPermalink }}" 
+               alt="{{ $img.Name }}" 
+               loading="lazy"
+               decoding="async"
+               class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105">
+        </a>
+      {{ end }}
+    {{ end }}
+
+    {{ if $open }}</div>{{ end }}
+  </div>
+{{ end }}
+
+<style>
+/* Masonry layout */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 10px;
+  gap: 0.4rem;
+  width: 100%;
+}
+.gallery-grid > a {
+  display: block;
+  break-inside: avoid;
+  position: relative;
+}
+
+/* Story container styling */
+.story-gallery {
+  width: 100%;
+}
+.story-block {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0;
+}
+.story-block iframe,
+.story-block img {
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.fade-in-tile,
+.fade-in-block {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.fade-in-tile:nth-child(2n) { animation-delay: 0.1s; }
+.fade-in-tile:nth-child(3n) { animation-delay: 0.2s; }
+.fade-in-block { animation-delay: 0.1s; }
+
+/* Hover effects */
+.gallery-grid a:hover img {
+  transform: scale(1.05);
+}
+.story-block:hover img {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+</style>
+
+<script>
+/* Masonry grid span calculation */
+document.addEventListener("DOMContentLoaded", () => {
+  const grids = document.querySelectorAll('.gallery-grid');
+  grids.forEach(grid => {
+    const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+    const gap = parseInt(window.getComputedStyle(grid).getPropertyValue('gap'));
+    grid.querySelectorAll('a').forEach(item => {
+      const img = item.querySelector('img');
+      if (!img) return;
+      const resize = () => {
+        const span = Math.ceil((img.getBoundingClientRect().height + gap) / (rowHeight + gap));
+        item.style.gridRowEnd = `span ${span}`;
+      };
+      img.complete ? resize() : img.addEventListener('load', resize);
+    });
+  });
+});
+</script>
