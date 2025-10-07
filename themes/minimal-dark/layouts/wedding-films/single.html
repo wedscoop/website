@@ -1,16 +1,33 @@
 {{ define "main" }}
-  <article class="container mx-auto">
-    <h1 class="text-3xl font-bold">{{ .Title }}</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-      {{ $films := getJSON "data/weddingfilms.json" }}
-      {{ range $films }}
-        <div>
-          <div class="aspect-w-16 aspect-h-9">
-            <iframe src="https://www.youtube.com/embed/{{ .videoId }}" frameborder="0" allowfullscreen class="w-full h-full rounded-xl"></iframe>
+  <article class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6" style="font-family: 'Raleway', sans-serif;">{{ .Title }}</h1>
+
+    <!-- Load JSON properly -->
+    {{ $filmsResource := resources.Get "data/weddingfilms.json" | transform.Unmarshal }}
+
+    {{ if $filmsResource }}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {{ range $filmsResource }}
+          <div class="bg-[#1A1A1A] rounded-xl overflow-hidden shadow-lg">
+            <div class="aspect-w-16 aspect-h-9">
+              <iframe
+                src="https://www.youtube.com/embed/{{ .videoId }}"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                class="w-full h-full rounded-t-xl"
+              ></iframe>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-300 text-sm text-center" style="font-family: 'Lato', sans-serif;">
+                {{ .title }}
+              </p>
+            </div>
           </div>
-          <p class="mt-2 text-gray-300 text-sm">{{ .title }}</p>
-        </div>
-      {{ end }}
-    </div>
+        {{ end }}
+      </div>
+    {{ else }}
+      <p class="text-gray-400 text-center mt-6">No wedding films found.</p>
+    {{ end }}
   </article>
 {{ end }}
