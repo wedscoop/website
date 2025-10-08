@@ -1,3 +1,4 @@
+{{/* Load and parse JSON using modern Hugo method */}}
 {{ $filmsFile := resources.Get "data/weddingfilms.json" }}
 {{ if $filmsFile }}
   {{ $filmsData := $filmsFile | transform.Unmarshal }}
@@ -6,29 +7,34 @@
   {{ if $films }}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {{ range $films }}
+        {{ $film := . }} {{/* explicitly bind to a variable */}}
         <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
           
           <!-- Thumbnail -->
           <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/{{ .videoId }}/hqdefault.jpg"
-                 alt="{{ .title }}"
+            <img src="https://img.youtube.com/vi/{{ index $film "videoId" }}/hqdefault.jpg"
+                 alt="{{ index $film "title" }}"
                  class="absolute inset-0 w-full h-full object-cover rounded-lg">
+            
             <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">▶</button>
+                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
+              ▶
+            </button>
           </div>
 
           <!-- Title -->
           <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            {{ .title }}
+            {{ index $film "title" }}
           </h3>
 
           <!-- Modal -->
-          <div x-show="open" x-cloak
+          <div x-show="open"
+               x-cloak
                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
             <button @click="open = false"
                     class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
             <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/{{ .videoId }}?autoplay=1"
+              <iframe src="https://www.youtube.com/embed/{{ index $film "videoId" }}?autoplay=1"
                       frameborder="0"
                       allow="autoplay; encrypted-media; fullscreen"
                       class="w-full h-full absolute top-0 left-0"></iframe>
@@ -38,7 +44,7 @@
       {{ end }}
     </div>
   {{ else }}
-    <p class="text-gray-400 text-center py-8">⚠️ No wedding films found inside JSON.</p>
+    <p class="text-gray-400 text-center py-8">⚠️ No wedding films found inside JSON file.</p>
   {{ end }}
 {{ else }}
   <p class="text-gray-400 text-center py-8">⚠️ Could not load assets/data/weddingfilms.json.</p>
