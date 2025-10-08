@@ -45,16 +45,24 @@
             </div>
 
           {{ else if eq $block.type "quote" }}
-            <div class="relative w-full rounded-lg overflow-hidden shadow-md mb-2 fade-in-block">
-              <img src="{{ $img.RelPermalink }}" 
-                   alt="{{ $img.Name }}"
-                   class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105">
-              <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent py-4 px-6">
-                <p class="italic text-[#d1d1d1] text-base md:text-xl font-light text-center leading-snug"
-                   style="font-family: 'Raleway', sans-serif;">
-                  “{{ $block.content }}”
-                </p>
-              </div>
+            <div class="relative w-full rounded-lg overflow-hidden shadow-md mb-2 fade-in-block group">
+              <a href="{{ $img.RelPermalink }}" 
+                 class="glightbox block" 
+                 data-gallery="gallery-{{ $.Page.File.Path | urlize }}">
+                <img
+                  data-src="{{ $img.RelPermalink }}"
+                  alt="{{ $img.Name }}"
+                  loading="lazy"
+                  decoding="async"
+                  class="lazy-image w-full h-auto object-cover opacity-0"
+                >
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent py-4 px-6">
+                  <p class="italic text-[#d1d1d1] text-base md:text-xl font-light text-center leading-snug"
+                     style="font-family: 'Raleway', sans-serif;">
+                    “{{ $block.content }}”
+                  </p>
+                </div>
+              </a>
             </div>
           {{ end }}
         </section>
@@ -69,11 +77,13 @@
         <a href="{{ $img.RelPermalink }}" 
            class="glightbox block relative overflow-hidden rounded-lg shadow-md fade-in-tile"
            data-gallery="gallery-{{ $.Page.File.Path | urlize }}">
-          <img src="{{ $img.RelPermalink }}" 
-               alt="{{ $img.Name }}" 
-               loading="lazy"
-               decoding="async"
-               class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105">
+          <img
+            data-src="{{ $img.RelPermalink }}"
+            alt="{{ $img.Name }}"
+            loading="lazy"
+            decoding="async"
+            class="lazy-image w-full h-auto object-cover opacity-0"
+          >
         </a>
       {{ end }}
     {{ end }}
@@ -95,6 +105,8 @@
   display: block;
   break-inside: avoid;
   position: relative;
+  overflow: hidden;       /* ensures clean clipping */
+  line-height: 0;         /* removes inline gap below images */
 }
 
 /* Story container styling */
@@ -126,32 +138,94 @@
 .fade-in-tile:nth-child(3n) { animation-delay: 0.2s; }
 .fade-in-block { animation-delay: 0.1s; }
 
-/* Hover effects */
-.gallery-grid a:hover img {
-  transform: scale(1.05);
+/* ✅ Smooth hover effects for all images */
+.gallery-grid a img,
+.story-block a img {
+  transition: transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+              filter 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, filter;
 }
-.story-block:hover img {
-  transform: scale(1.03);
-  transition: transform 0.3s ease;
+.gallery-grid a:hover img,
+.story-block a:hover img {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+/* Lazy image transition */
+img.lazy-image {
+  transition: opacity 0.6s ease-out;
+}
+img.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* ✅ Fix bottom gap without affecting layout */
+.gallery-grid a img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+
+/* ✅ Flush alignment (no visual gap between rows) */
+.gallery-grid a {
+  margin-bottom: -0.25rem; /* subtle overlap to fix sub-pixel gaps */
 }
 </style>
 
 <script>
-/* Masonry grid span calculation */
+/* Lazy loading + Masonry height recalculation */
 document.addEventListener("DOMContentLoaded", () => {
-  const grids = document.querySelectorAll('.gallery-grid');
-  grids.forEach(grid => {
+  const lazyImages = document.querySelectorAll("img.lazy-image");
+
+  // Masonry adjustment function
+  function adjustMasonry(grid) {
+    if (!grid) return;
     const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
     const gap = parseInt(window.getComputedStyle(grid).getPropertyValue('gap'));
     grid.querySelectorAll('a').forEach(item => {
       const img = item.querySelector('img');
-      if (!img) return;
-      const resize = () => {
-        const span = Math.ceil((img.getBoundingClientRect().height + gap) / (rowHeight + gap));
-        item.style.gridRowEnd = `span ${span}`;
-      };
-      img.complete ? resize() : img.addEventListener('load', resize);
+      if (!img || !img.complete) return;
+      const span = Math.ceil((img.getBoundingClientRect().height + gap * 0.9) / (rowHeight + gap));
+      item.style.gridRowEnd = `span ${span}`;
     });
+  }
+
+  // Lazy load observer
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+
+          img.onload = () => {
+            img.classList.add("loaded");
+            const grid = img.closest(".gallery-grid");
+            if (grid) adjustMasonry(grid); // 🔧 recalc row height after load
+          };
+
+          obs.unobserve(img);
+        }
+      });
+    }, { rootMargin: "300px 0px" });
+    lazyImages.forEach(img => observer.observe(img));
+  } else {
+    // Fallback for older browsers
+    lazyImages.forEach(img => {
+      img.src = img.dataset.src;
+      img.onload = () => {
+        img.classList.add("loaded");
+        const grid = img.closest(".gallery-grid");
+        if (grid) adjustMasonry(grid);
+      };
+    });
+  }
+
+  // Initial recalculation after load (in case some are visible)
+  window.addEventListener("load", () => {
+    document.querySelectorAll(".gallery-grid").forEach(grid => adjustMasonry(grid));
   });
 });
 </script>
