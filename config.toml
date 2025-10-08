@@ -6,7 +6,7 @@ theme = "minimal-dark"
 [params]
   phone = "+917982921411"
   email = "contact.wedscoop@gmail.com"
-  ga = "G-XXXXXXX" # GA4 ID placeholder
+  ga = "G-RKHN2J1GX0" # GA4 ID placeholder
 
 [taxonomies]
   tag = "tags"
