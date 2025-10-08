@@ -1,0 +1,6 @@
+build:
+  command: hugo --gc --minify
+  output_directory: public
+  environment:
+    HUGO_VERSION: "0.125.0"
+    HUGO_ENV: "production"
