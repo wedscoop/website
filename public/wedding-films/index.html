@@ -8,18 +8,18 @@
   <meta name="description" content="Example site for hugo-theme-gallery">
 
   
-  <meta property="og:title" content="Wedding Films">
-  <meta property="og:description" content="Example site for hugo-theme-gallery">
   
 
   
   
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RKHN2J1GX0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RKHN2J1GX0');
+</script>
   
 
   <link rel="stylesheet" href="/css/main.css">
@@ -40,6 +40,29 @@
     });
   });
 </script>
+
+
+<title>Wedding Films | Gallery</title>
+<meta name="description" content="Wedscoop by Saurabh Kalra — professional wedding photography and cinematic films capturing timeless memories across India.">
+
+
+<link rel="icon" href="/web-app-manifest-192x192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/web-app-manifest-512x512.png" sizes="512x512">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#1F1F1F">
+
+
+<meta property="og:title" content="Wedding Films | Wedscoop">
+<meta property="og:description" content="Award-winning wedding photography and films by Wedscoop.">
+<meta property="og:image" content="/images/og-image.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://localhost:1313/wedding-films/">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wedding Films | Gallery">
+<meta name="twitter:description" content="Timeless wedding photography and films by Wedscoop.">
+<meta name="twitter:image" content="https://wedscoop.in/images/og-image.jpg">
 
 
 </head>
@@ -132,7 +155,7 @@
       <a href="/real-weddings/" class="hover:text-blue-400">Real Weddings</a>
       <a href="/preweddings/" class="hover:text-blue-400">Preweddings</a>
       <a href="/wedding-films/" class="hover:text-blue-400">Wedding Films</a>
-      <a href="/blog/" class="hover:text-blue-400">Blog</a>
+      
       <a href="/contact/" class="hover:text-blue-400">Contact</a>
       <button id="close-menu" class="absolute top-4 right-4 text-gray-200 hover:text-white text-2xl font-bold">✕</button>
     </div>
@@ -181,396 +204,403 @@
   
 
   
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div 
+      x-data="{ open: false, selectedId: null }"
+      x-effect="open ? document.body.style.overflow = 'hidden' : document.body.style.overflow = ''"
+      @keydown.window.escape="open = false; selectedId = null">
+
       
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
           
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/qOk-GwsXQP4/hqdefault.jpg"
-                 alt="Mansi &amp; Arun Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Mansi &amp; Arun Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/qOk-GwsXQP4?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/qOk-GwsXQP4/hqdefault.jpg"
+                alt="Mansi &amp; Arun"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='qOk-GwsXQP4'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Mansi &amp; Arun">
+                ▶
+              </button>
             </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/tcjv6xCpyR4/hqdefault.jpg"
-                 alt="Pracheta &amp; Samyak Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Mansi &amp; Arun
+            </h3>
           </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
 
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Pracheta &amp; Samyak Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/tcjv6xCpyR4?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
-            </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/k4z1MpwLcyg/hqdefault.jpg"
-                 alt="Madhuri &amp; Govind Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Madhuri &amp; Govind Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/k4z1MpwLcyg?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/tcjv6xCpyR4/hqdefault.jpg"
+                alt="Pracheta &amp; Samyak"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='tcjv6xCpyR4'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Pracheta &amp; Samyak">
+                ▶
+              </button>
             </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/USQKhvxDJdg/hqdefault.jpg"
-                 alt="Vaishali &amp; Kunal Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Pracheta &amp; Samyak
+            </h3>
           </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
 
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Vaishali &amp; Kunal Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/USQKhvxDJdg?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
-            </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/esH4IBxsYKo/hqdefault.jpg"
-                 alt="Ashna &amp; Shivang Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Ashna &amp; Shivang Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/esH4IBxsYKo?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/k4z1MpwLcyg/hqdefault.jpg"
+                alt="Madhuri &amp; Govind"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='k4z1MpwLcyg'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Madhuri &amp; Govind">
+                ▶
+              </button>
             </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/AKPDAO4W4kg/hqdefault.jpg"
-                 alt="Sukhmani &amp; Saharsh Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Madhuri &amp; Govind
+            </h3>
           </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
 
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Sukhmani &amp; Saharsh Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/AKPDAO4W4kg?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
-            </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/YkDgvV-AuiQ/hqdefault.jpg"
-                 alt="Khyatee &amp; Devansh Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Khyatee &amp; Devansh Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/YkDgvV-AuiQ?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/USQKhvxDJdg/hqdefault.jpg"
+                alt="Vaishali &amp; Kunal"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='USQKhvxDJdg'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Vaishali &amp; Kunal">
+                ▶
+              </button>
             </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/oEnXPLT6Um4/hqdefault.jpg"
-                 alt="Aditi &amp; Saurabh Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Vaishali &amp; Kunal
+            </h3>
           </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
 
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Aditi &amp; Saurabh Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/oEnXPLT6Um4?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
-            </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/A3uBsXdHHro/hqdefault.jpg"
-                 alt="Aakriti &amp; Shrey Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Aakriti &amp; Shrey Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/A3uBsXdHHro?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/esH4IBxsYKo/hqdefault.jpg"
+                alt="Ashna &amp; Shivang"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='esH4IBxsYKo'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Ashna &amp; Shivang">
+                ▶
+              </button>
             </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/wZYA9Tf8f-s/hqdefault.jpg"
-                 alt="Lalima &amp; Sarthak Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
+
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Ashna &amp; Shivang
+            </h3>
           </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
 
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Lalima &amp; Sarthak Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/wZYA9Tf8f-s?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
-            </div>
-          </div>
-        </div>
-      
-         
-        <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-          
-          
-          <div class="aspect-video w-full relative">
-            <img src="https://img.youtube.com/vi/Nk1Qw36Z3Kk/hqdefault.jpg"
-                 alt="Vaidehi &amp; Vijit Wedding Film"
-                 class="absolute inset-0 w-full h-full object-cover rounded-lg">
             
-            <button @click="open = true"
-                    class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-              ▶
-            </button>
-          </div>
-
-          
-          <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-            Vaidehi &amp; Vijit Wedding Film
-          </h3>
-
-          
-          <div x-show="open"
-               x-cloak
-               class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-            <button @click="open = false"
-                    class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
-            <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-              <iframe src="https://www.youtube.com/embed/Nk1Qw36Z3Kk?autoplay=1"
-                      frameborder="0"
-                      allow="autoplay; encrypted-media; fullscreen"
-                      class="w-full h-full absolute top-0 left-0"></iframe>
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/AKPDAO4W4kg/hqdefault.jpg"
+                alt="Sukhmani &amp; Saharsh"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='AKPDAO4W4kg'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Sukhmani &amp; Saharsh">
+                ▶
+              </button>
             </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Sukhmani &amp; Saharsh
+            </h3>
           </div>
-        </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
+            
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/YkDgvV-AuiQ/hqdefault.jpg"
+                alt="Khyatee &amp; Devansh"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='YkDgvV-AuiQ'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Khyatee &amp; Devansh">
+                ▶
+              </button>
+            </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Khyatee &amp; Devansh
+            </h3>
+          </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
+            
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/oEnXPLT6Um4/hqdefault.jpg"
+                alt="Aditi &amp; Saurabh"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='oEnXPLT6Um4'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Aditi &amp; Saurabh">
+                ▶
+              </button>
+            </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Aditi &amp; Saurabh
+            </h3>
+          </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
+            
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/A3uBsXdHHro/hqdefault.jpg"
+                alt="Aakriti &amp; Shrey"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='A3uBsXdHHro'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Aakriti &amp; Shrey">
+                ▶
+              </button>
+            </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Aakriti &amp; Shrey
+            </h3>
+          </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
+            
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/wZYA9Tf8f-s/hqdefault.jpg"
+                alt="Lalima &amp; Sarthak"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='wZYA9Tf8f-s'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Lalima &amp; Sarthak">
+                ▶
+              </button>
+            </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Lalima &amp; Sarthak
+            </h3>
+          </div>
+        
+          
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg group">
+
+            
+            <div class="aspect-video w-full relative overflow-hidden rounded-lg">
+              <img
+                src="https://img.youtube.com/vi/Nk1Qw36Z3Kk/hqdefault.jpg"
+                alt="Vaidehi &amp; Vijit"
+                loading="lazy" decoding="async"
+                class="absolute inset-0 w-full h-full object-cover object-center
+                       transition-transform duration-[900ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+                       group-hover:scale-105 group-hover:brightness-110 rounded-lg">
+              
+              
+              <button
+                @click="selectedId='Nk1Qw36Z3Kk'; open = true"
+                class="absolute inset-0 flex items-center justify-center text-white text-4xl
+                       bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                aria-label="Play Vaidehi &amp; Vijit">
+                ▶
+              </button>
+            </div>
+
+            
+            <h3 class="mt-2 text-lg font-semibold text-white text-center"
+                style="font-family: 'Raleway', sans-serif;">
+              Vaidehi &amp; Vijit
+            </h3>
+          </div>
+        
+      </div>
+
       
+      <div
+        x-show="open"
+        x-cloak
+        x-transition.opacity
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6"
+        role="dialog"
+        aria-modal="true">
+
+        
+        <button
+          @click="open = false; selectedId = null"
+          class="absolute top-4 right-4 text-white text-3xl font-bold z-50"
+          aria-label="Close video">✕</button>
+
+        
+        <div class="w-full max-w-4xl aspect-video relative z-40 rounded-lg overflow-hidden shadow-xl">
+          <template x-if="open && selectedId">
+            <iframe
+              :src="'https://www.youtube.com/embed/' + selectedId + '?autoplay=1&rel=0'"
+              frameborder="0"
+              allow="autoplay; encrypted-media; fullscreen"
+              class="w-full h-full absolute top-0 left-0"
+              allowfullscreen
+            ></iframe>
+          </template>
+        </div>
+      </div>
     </div>
   
 
+
+<style>
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.group { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+.group:nth-child(2n) { animation-delay: 0.06s; }
+.group:nth-child(3n) { animation-delay: 0.12s; }
+
+.group img {
+  transition: transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+              filter 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, filter;
+}
+.group:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.group button {
+  transition: opacity 0.4s ease;
+}
+
+[x-cloak] { display: none !important; }
+</style>
 
 
   </div>
@@ -599,7 +629,7 @@
   	<br>
 </footer>
 
-    <a href="https://wa.me/917982921411?text=Hi%20I%20saw%20your%20portfolio"
+    <a href="https://wa.me/917982921411?text=Hi%20Wedscoop%20Team!%20I%20came%20across%20your%20portfolio%20and%20absolutely%20loved%20your%20work.%20I'd%20like%20to%20discuss%20photography%20and%20videography%20for%20my%20wedding.%20Could%20you%20please%20share%20more%20details%3F"
    class="fixed z-50 bottom-6 right-6 p-3 rounded-full shadow-lg text-white transition transform hover:scale-110"
    style="
      background: linear-gradient(145deg, #FF5E9C 0%, #FF2E77 100%);

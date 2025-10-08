@@ -64,7 +64,7 @@ title: "Contact"
   <p class="mb-1">Sector 9, Rohini</p>
   <p class="mb-1">Delhi 110085</p>
   <p class="mt-3">
-    📞 <a href="tel:+917982921411" class="text-pink-500 hover:underline">+91 98999 16151</a>
+    📞 <a href="tel:+917982921411" class="text-pink-500 hover:underline">+91 79829 21411</a>
   </p>
   <p>
     ✉️ <a href="mailto:contact.wedscoop@gmail.com" class="text-pink-500 hover:underline">contact.wedscoop@gmail.com</a>

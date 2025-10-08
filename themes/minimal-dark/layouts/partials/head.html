@@ -4,21 +4,21 @@
   <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
   <meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="{{ .Title }}">
-  <meta property="og:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  
   {{ if .Params.images }}
     <meta property="og:image" content="{{ (index .Params.images 0).RelPermalink }}">
   {{ end }}
 
   <!-- Google Analytics (GA4) -->
   {{ with .Site.Params.ga }}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-    gtag('config', '{{ . }}');
-  </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RKHN2J1GX0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RKHN2J1GX0');
+</script>
   {{ end }}
 
   <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
@@ -39,6 +39,29 @@
     });
   });
 </script>
+
+<!-- Primary Meta -->
+<title>{{ if .Title }}{{ .Title }} | {{ site.Title }}{{ else }}{{ site.Title }}{{ end }}</title>
+<meta name="description" content="Wedscoop by Saurabh Kalra — professional wedding photography and cinematic films capturing timeless memories across India.">
+
+<!-- Favicons -->
+<link rel="icon" href="/web-app-manifest-192x192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/web-app-manifest-512x512.png" sizes="512x512">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#1F1F1F">
+
+<!-- Open Graph -->
+<meta property="og:title" content="{{ if .Title }}{{ .Title }} | Wedscoop{{ else }}Wedscoop — Wedding Photography & Films{{ end }}">
+<meta property="og:description" content="Award-winning wedding photography and films by Wedscoop.">
+<meta property="og:image" content="/images/og-image.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ .Permalink }}">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .Title }}{{ .Title }} | {{ site.Title }}{{ else }}{{ site.Title }}{{ end }}">
+<meta name="twitter:description" content="Timeless wedding photography and films by Wedscoop.">
+<meta name="twitter:image" content="https://wedscoop.in/images/og-image.jpg">
 
 
 </head>

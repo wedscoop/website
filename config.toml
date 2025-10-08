@@ -1,6 +1,6 @@
-baseURL = "https://example.com/"
+baseURL = "https://wedscoop.com/"
 languageCode = "en-us"
-title = "Wedscoop"
+title = "Wedscoop — Wedding Photography & Films by Saurabh Kalra"
 theme = "minimal-dark"
 
 [params]

@@ -8,18 +8,18 @@
   <meta name="description" content="Example site for hugo-theme-gallery">
 
   
-  <meta property="og:title" content="Vaishali &amp; Kunal">
-  <meta property="og:description" content="Example site for hugo-theme-gallery">
   
 
   
   
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
-  </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RKHN2J1GX0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RKHN2J1GX0');
+</script>
   
 
   <link rel="stylesheet" href="/css/main.css">
@@ -40,6 +40,29 @@
     });
   });
 </script>
+
+
+<title>Vaishali &amp; Kunal | Gallery</title>
+<meta name="description" content="Wedscoop by Saurabh Kalra — professional wedding photography and cinematic films capturing timeless memories across India.">
+
+
+<link rel="icon" href="/web-app-manifest-192x192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/web-app-manifest-512x512.png" sizes="512x512">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#1F1F1F">
+
+
+<meta property="og:title" content="Vaishali &amp; Kunal | Wedscoop">
+<meta property="og:description" content="Award-winning wedding photography and films by Wedscoop.">
+<meta property="og:image" content="/images/og-image.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="http://localhost:1313/real-weddings/vaishali-kunal/">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vaishali &amp; Kunal | Gallery">
+<meta name="twitter:description" content="Timeless wedding photography and films by Wedscoop.">
+<meta name="twitter:image" content="https://wedscoop.in/images/og-image.jpg">
 
 
 </head>
@@ -132,7 +155,7 @@
       <a href="/real-weddings/" class="hover:text-blue-400">Real Weddings</a>
       <a href="/preweddings/" class="hover:text-blue-400">Preweddings</a>
       <a href="/wedding-films/" class="hover:text-blue-400">Wedding Films</a>
-      <a href="/blog/" class="hover:text-blue-400">Blog</a>
+      
       <a href="/contact/" class="hover:text-blue-400">Contact</a>
       <button id="close-menu" class="absolute top-4 right-4 text-gray-200 hover:text-white text-2xl font-bold">✕</button>
     </div>
@@ -3277,9 +3300,11 @@
  
 .gallery-grid {
   display: grid;
+  align-items: start;
+  gap: 0.5rem;
+  column-gap: 0.3rem;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-rows: 10px;
-  gap: 0.4rem;
   width: 100%;
 }
 .gallery-grid > a {
@@ -3334,7 +3359,7 @@
 
  
 img.lazy-image {
-  transition: opacity 0.6s ease-out;
+  transition: opacity 0.3s ease-out;
 }
 img.lazy-image.loaded {
   opacity: 1;
@@ -3353,6 +3378,17 @@ img.lazy-image.loaded {
 .gallery-grid a {
   margin-bottom: -0.25rem;  
 }
+
+.gallery-grid a img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: bottom;  
+}
 </style>
 
 <script>
@@ -3368,7 +3404,7 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.querySelectorAll('a').forEach(item => {
       const img = item.querySelector('img');
       if (!img || !img.complete) return;
-      const span = Math.ceil((img.getBoundingClientRect().height + gap * 0.9) / (rowHeight + gap));
+	  const span = Math.ceil((img.getBoundingClientRect().height + gap * 0.5) / (rowHeight + gap));
       item.style.gridRowEnd = `span ${span}`;
     });
   }
@@ -3610,7 +3646,7 @@ document.addEventListener("DOMContentLoaded", () => {
   	<br>
 </footer>
 
-    <a href="https://wa.me/917982921411?text=Hi%20I%20saw%20your%20portfolio"
+    <a href="https://wa.me/917982921411?text=Hi%20Wedscoop%20Team!%20I%20came%20across%20your%20portfolio%20and%20absolutely%20loved%20your%20work.%20I'd%20like%20to%20discuss%20photography%20and%20videography%20for%20my%20wedding.%20Could%20you%20please%20share%20more%20details%3F"
    class="fixed z-50 bottom-6 right-6 p-3 rounded-full shadow-lg text-white transition transform hover:scale-110"
    style="
      background: linear-gradient(145deg, #FF5E9C 0%, #FF2E77 100%);

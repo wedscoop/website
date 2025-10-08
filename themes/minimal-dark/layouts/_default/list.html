@@ -6,15 +6,15 @@
   </h1>
 
   <!-- Grid of Items -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     {{ range .Pages }}
       <a href="{{ .RelPermalink }}" 
          class="block group bg-[#1A1A1A] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
         
         <!-- Thumbnail -->
 {{ with index .Resources 0 }}
-  {{ $thumb := .Fill "700x394 webp q75" }}
-  <div class="aspect-[16/9] overflow-hidden">
+  {{ $thumb := .Fill "700x394 center webp q75" }}
+  <div class="aspect-[3/2] overflow-hidden">
     <img 
       src="{{ $thumb.RelPermalink }}" 
       width="{{ $thumb.Width }}" 
