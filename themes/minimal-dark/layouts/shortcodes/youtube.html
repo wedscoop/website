@@ -1,49 +1,54 @@
-{{ $data := site.Data.weddingfilms }}
+<!-- Debug output: shows what Hugo sees in site.Data -->
+<pre class="text-xs text-gray-500 bg-[#111] p-2 rounded overflow-x-auto">
+{{ site.Data | jsonify }}
+</pre>
 
-{{ if $data }}
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {{ range $index, $film := $data }}
-    <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
-      
-      <!-- Thumbnail with fixed 16:9 ratio -->
-      <div class="aspect-video w-full relative">
-        <img src="https://img.youtube.com/vi/{{ $film.videoId }}/hqdefault.jpg"
-             alt="{{ $film.title }}"
-             class="absolute inset-0 w-full h-full object-cover rounded-lg">
+{{ with (index site.Data "weddingfilms") }}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{ range . }}
+      <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
         
-        <!-- Overlay play button -->
-        <button @click="open = true"
-                class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
-          ▶
-        </button>
-      </div>
+        <!-- Thumbnail with fixed 16:9 ratio -->
+        <div class="aspect-video w-full relative">
+          <img src="https://img.youtube.com/vi/{{ .videoId }}/hqdefault.jpg"
+               alt="{{ .title }}"
+               class="absolute inset-0 w-full h-full object-cover rounded-lg">
+          
+          <!-- Overlay play button -->
+          <button @click="open = true"
+                  class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
+            ▶
+          </button>
+        </div>
 
-      <!-- Title with theme fonts -->
-      <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
-        {{ $film.title }}
-      </h3>
+        <!-- Title with theme fonts -->
+        <h3 class="mt-2 text-lg font-semibold text-white" style="font-family: 'Raleway', sans-serif;">
+          {{ .title }}
+        </h3>
 
-      <!-- Modal -->
-      <div x-show="open" 
-           x-cloak
-           class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
-        
-        <!-- Close button -->
-        <button @click="open = false"
-                class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
+        <!-- Modal -->
+        <div x-show="open" 
+             x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
+          
+          <!-- Close button -->
+          <button @click="open = false"
+                  class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
 
-        <!-- Video container -->
-        <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
-          <iframe src="https://www.youtube.com/embed/{{ $film.videoId }}?autoplay=1"
-                  frameborder="0"
-                  allow="autoplay; encrypted-media; fullscreen"
-                  class="w-full h-full absolute top-0 left-0"
-                  style="background-color: transparent; filter: none !important;"></iframe>
+          <!-- Video container -->
+          <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
+            <iframe src="https://www.youtube.com/embed/{{ .videoId }}?autoplay=1"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    class="w-full h-full absolute top-0 left-0"
+                    style="background-color: transparent; filter: none !important;"></iframe>
+          </div>
         </div>
       </div>
-    </div>
-  {{ end }}
-</div>
+    {{ end }}
+  </div>
 {{ else }}
-<p class="text-gray-400">No wedding films found.</p>
+  <p class="text-gray-400 text-center py-8">
+    No wedding films found (debug: data empty or key mismatch).
+  </p>
 {{ end }}
