@@ -1,33 +1,64 @@
 {{ define "main" }}
-  <article class="container mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold mb-6" style="font-family: 'Raleway', sans-serif;">{{ .Title }}</h1>
+<main class="max-w-6xl mx-auto px-4 py-12">
 
-    <!-- Load JSON properly -->
-    {{ $filmsResource := resources.Get "data/weddingfilms.json" | transform.Unmarshal }}
+  <h1 class="text-4xl font-bold text-center mb-12" style="font-family: 'Raleway', sans-serif;">
+    Wedding Films
+  </h1>
 
-    {{ if $filmsResource }}
+  {{/* Load JSON safely from assets/data/ */}}
+  {{ $filmsFile := resources.Get "data/weddingfilms.json" }}
+  {{ if $filmsFile }}
+    {{ $filmsData := $filmsFile | transform.Unmarshal }}
+    {{ $films := index $filmsData "weddingfilms" }}
+
+    {{ if $films }}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {{ range $filmsResource }}
-          <div class="bg-[#1A1A1A] rounded-xl overflow-hidden shadow-lg">
-            <div class="aspect-w-16 aspect-h-9">
-              <iframe
-                src="https://www.youtube.com/embed/{{ .videoId }}"
-                frameborder="0"
-                allow="autoplay; encrypted-media"
-                allowfullscreen
-                class="w-full h-full rounded-t-xl"
-              ></iframe>
+        {{ range $films }}
+          {{ $film := . }}
+          <div class="relative cursor-pointer rounded-lg overflow-hidden shadow-lg" x-data="{ open: false }">
+            
+            <!-- Thumbnail -->
+            <div class="aspect-video w-full relative">
+              <img src="https://img.youtube.com/vi/{{ index $film "videoId" }}/hqdefault.jpg"
+                   alt="{{ index $film "title" }}"
+                   class="absolute inset-0 w-full h-full object-cover rounded-lg">
+              
+              <button @click="open = true"
+                      class="absolute inset-0 flex items-center justify-center text-white text-3xl bg-black bg-opacity-40">
+                ▶
+              </button>
             </div>
-            <div class="p-4">
-              <p class="text-gray-300 text-sm text-center" style="font-family: 'Lato', sans-serif;">
-                {{ .title }}
-              </p>
+
+            <!-- Title -->
+            <h3 class="mt-2 text-lg font-semibold text-white text-center" style="font-family: 'Raleway', sans-serif;">
+              {{ index $film "title" }}
+            </h3>
+
+            <!-- Modal -->
+            <div x-show="open" x-cloak
+                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4 sm:p-6">
+              <button @click="open = false"
+                      class="absolute top-4 right-4 text-white text-3xl font-bold z-20">✕</button>
+              <div class="w-full max-w-4xl aspect-video relative z-10 rounded-lg overflow-hidden shadow-xl">
+                <iframe src="https://www.youtube.com/embed/{{ index $film "videoId" }}?autoplay=1"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media; fullscreen"
+                        class="w-full h-full absolute top-0 left-0"></iframe>
+              </div>
             </div>
           </div>
         {{ end }}
       </div>
     {{ else }}
-      <p class="text-gray-400 text-center mt-6">No wedding films found.</p>
+      <p class="text-gray-400 text-center py-8">
+        ⚠️ No wedding films found inside JSON.
+      </p>
     {{ end }}
-  </article>
+  {{ else }}
+    <p class="text-gray-400 text-center py-8">
+      ⚠️ Could not load <code>assets/data/weddingfilms.json</code>.
+    </p>
+  {{ end }}
+
+</main>
 {{ end }}
