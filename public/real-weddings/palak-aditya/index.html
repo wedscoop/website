@@ -3156,6 +3156,178 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".gallery-grid").forEach(grid => adjustMasonry(grid));
   });
 });
+
+ 
+document.addEventListener("DOMContentLoaded", () => {
+  const allTiles = Array.from(document.querySelectorAll(".gallery-grid a"));
+  const batchSize = 12;
+  let currentIndex = batchSize;
+  let loading = false;
+  let suspended = false; 
+
+  
+  allTiles.forEach((el, i) => {
+    if (i >= batchSize) el.style.display = "none";
+  });
+
+  
+  const sentinel = document.createElement("div");
+  sentinel.id = "batch-sentinel";
+  sentinel.style.height = "1px";
+  
+  sentinel.style.marginTop = "300px";
+  document.querySelector(".story-gallery").appendChild(sentinel);
+
+   
+  function loadImage(img) {
+    return new Promise(resolve => {
+      if (!img) return resolve();
+      if (img.complete && img.naturalWidth) return resolve();
+      img.addEventListener("load", () => resolve(), { once: true });
+      img.addEventListener("error", () => resolve(), { once: true });
+      
+      if (img.dataset && img.dataset.src && !img.src) img.src = img.dataset.src;
+    });
+  }
+
+   
+  function waitForImagesLoaded(imgs, timeout = 1500) {
+    return new Promise(resolve => {
+      if (!imgs.length) return resolve();
+      let done = 0;
+      let finished = false;
+      imgs.forEach(img => {
+        loadImage(img).then(() => {
+          done++;
+          
+          try {
+            const grid = img.closest(".gallery-grid");
+            if (grid && typeof adjustMasonry === "function") adjustMasonry(grid);
+          } catch (e) {   }
+
+          if (done >= imgs.length && !finished) {
+            finished = true;
+            resolve();
+          }
+        });
+      });
+      
+      setTimeout(() => {
+        if (!finished) {
+          finished = true;
+          resolve();
+        }
+      }, timeout);
+    });
+  }
+
+  async function loadNextBatch() {
+    
+    if (loading) return;
+    if (currentIndex >= allTiles.length) return cleanup();
+
+    loading = true;
+    suspended = false;
+
+    
+    try { observer.unobserve(sentinel); } catch (e) {}
+
+    const next = allTiles.slice(currentIndex, currentIndex + batchSize);
+    if (!next.length) {
+      loading = false;
+      return cleanup();
+    }
+
+    console.log(`Loading batch: ${currentIndex} → ${currentIndex + next.length - 1}`);
+
+    
+    const imgElems = [];
+    next.forEach(el => {
+      el.style.display = "block";
+      el.classList.add("fade-in-tile");
+      const img = el.querySelector("img.lazy-image") || el.querySelector("img");
+      if (img) {
+        
+        if (img.dataset && img.dataset.src && !img.src) img.src = img.dataset.src;
+        imgElems.push(img);
+      }
+    });
+
+    currentIndex += next.length;
+
+    
+    await waitForImagesLoaded(imgElems, 1400);
+
+    
+    if (currentIndex >= allTiles.length) {
+      loading = false;
+      return cleanup();
+    }
+
+    
+    const rect = sentinel.getBoundingClientRect();
+    const sentinelBelowViewport = rect.top > window.innerHeight + 5;
+
+    if (sentinelBelowViewport) {
+      
+      loading = false;
+      try { observer.observe(sentinel); } catch (e) {}
+      return;
+    }
+
+    
+    suspended = true;
+    loading = false;
+
+    
+    function onUserScrollOnce() {
+      window.removeEventListener("scroll", onUserScrollOnce);
+      
+      setTimeout(() => {
+        
+        suspended = false;
+        loadNextBatch();
+      }, 120);
+    }
+    window.addEventListener("scroll", onUserScrollOnce, { passive: true });
+  }
+
+  
+  const observer = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (!entry) return;
+    
+    if (entry.isIntersecting && !loading && !suspended) {
+      
+      if (window.scrollY < 60 && document.documentElement.scrollHeight <= window.innerHeight + 100) {
+        
+        return;
+      }
+      loadNextBatch();
+    }
+  }, { rootMargin: "0px", threshold: 0.01 });
+
+  observer.observe(sentinel);
+
+  
+  function scrollFallback() {
+    if (loading || suspended) return;
+    const threshold = document.body.offsetHeight - 160;
+    if (window.innerHeight + window.scrollY >= threshold) loadNextBatch();
+  }
+  window.addEventListener("scroll", scrollFallback, { passive: true });
+
+  function cleanup() {
+    try { observer.disconnect(); } catch (e) {}
+    window.removeEventListener("scroll", scrollFallback);
+    if (sentinel && sentinel.parentNode) sentinel.parentNode.removeChild(sentinel);
+    console.log("All batches loaded or no more tiles.");
+  }
+
+  
+  
+  
+});
 </script>
 
 

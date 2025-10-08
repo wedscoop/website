@@ -228,4 +228,176 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".gallery-grid").forEach(grid => adjustMasonry(grid));
   });
 });
+
+/* --- Batch loader --- */
+document.addEventListener("DOMContentLoaded", () => {
+  const allTiles = Array.from(document.querySelectorAll(".gallery-grid a"));
+  const batchSize = 12;
+  let currentIndex = batchSize;
+  let loading = false;
+  let suspended = false; // when true we won't auto-trigger until user scrolls
+
+  // hide everything beyond the first batch
+  allTiles.forEach((el, i) => {
+    if (i >= batchSize) el.style.display = "none";
+  });
+
+  // sentinel (marker) at the bottom
+  const sentinel = document.createElement("div");
+  sentinel.id = "batch-sentinel";
+  sentinel.style.height = "1px";
+  // make it a bit below the last content so it doesn't start 'visible' immediately
+  sentinel.style.marginTop = "300px";
+  document.querySelector(".story-gallery").appendChild(sentinel);
+
+  /* helper: load an <img> and resolve when loaded (or error) */
+  function loadImage(img) {
+    return new Promise(resolve => {
+      if (!img) return resolve();
+      if (img.complete && img.naturalWidth) return resolve();
+      img.addEventListener("load", () => resolve(), { once: true });
+      img.addEventListener("error", () => resolve(), { once: true });
+      // if image uses data-src pattern, kick it off
+      if (img.dataset && img.dataset.src && !img.src) img.src = img.dataset.src;
+    });
+  }
+
+  /* helper: wait for all images in an array to load or until timeout (ms) */
+  function waitForImagesLoaded(imgs, timeout = 1500) {
+    return new Promise(resolve => {
+      if (!imgs.length) return resolve();
+      let done = 0;
+      let finished = false;
+      imgs.forEach(img => {
+        loadImage(img).then(() => {
+          done++;
+          // attempt to call user's masonry adjust function if present:
+          try {
+            const grid = img.closest(".gallery-grid");
+            if (grid && typeof adjustMasonry === "function") adjustMasonry(grid);
+          } catch (e) { /* ignore */ }
+
+          if (done >= imgs.length && !finished) {
+            finished = true;
+            resolve();
+          }
+        });
+      });
+      // safety timeout
+      setTimeout(() => {
+        if (!finished) {
+          finished = true;
+          resolve();
+        }
+      }, timeout);
+    });
+  }
+
+  async function loadNextBatch() {
+    // guard
+    if (loading) return;
+    if (currentIndex >= allTiles.length) return cleanup();
+
+    loading = true;
+    suspended = false;
+
+    // temporarily stop observing to avoid double triggers
+    try { observer.unobserve(sentinel); } catch (e) {}
+
+    const next = allTiles.slice(currentIndex, currentIndex + batchSize);
+    if (!next.length) {
+      loading = false;
+      return cleanup();
+    }
+
+    console.log(`Loading batch: ${currentIndex} → ${currentIndex + next.length - 1}`);
+
+    // Reveal tiles and kick off image loads immediately (so layout expands sooner)
+    const imgElems = [];
+    next.forEach(el => {
+      el.style.display = "block";
+      el.classList.add("fade-in-tile");
+      const img = el.querySelector("img.lazy-image") || el.querySelector("img");
+      if (img) {
+        // ensure dataset src is triggered (in case lazy observer isn't attached yet)
+        if (img.dataset && img.dataset.src && !img.src) img.src = img.dataset.src;
+        imgElems.push(img);
+      }
+    });
+
+    currentIndex += next.length;
+
+    // Wait for images to load (or timeout) so the DOM height actually increases
+    await waitForImagesLoaded(imgElems, 1400);
+
+    // If we've shown all, clean up
+    if (currentIndex >= allTiles.length) {
+      loading = false;
+      return cleanup();
+    }
+
+    // Check whether sentinel is now below the viewport
+    const rect = sentinel.getBoundingClientRect();
+    const sentinelBelowViewport = rect.top > window.innerHeight + 5;
+
+    if (sentinelBelowViewport) {
+      // safe to observe again (normal flow)
+      loading = false;
+      try { observer.observe(sentinel); } catch (e) {}
+      return;
+    }
+
+    // sentinel still visible — suspend automatic triggers and wait for user scroll
+    suspended = true;
+    loading = false;
+
+    // one-time scroll handler: user explicitly scrolls -> request next batch once
+    function onUserScrollOnce() {
+      window.removeEventListener("scroll", onUserScrollOnce);
+      // small delay to let scroll settle
+      setTimeout(() => {
+        // clear suspended and load next batch (user intent)
+        suspended = false;
+        loadNextBatch();
+      }, 120);
+    }
+    window.addEventListener("scroll", onUserScrollOnce, { passive: true });
+  }
+
+  // IntersectionObserver — kept conservative to avoid pre-triggering
+  const observer = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (!entry) return;
+    // only trigger when sentinel intersects, we are not loading, and not suspended
+    if (entry.isIntersecting && !loading && !suspended) {
+      // small guard to avoid firing too early on page load
+      if (window.scrollY < 60 && document.documentElement.scrollHeight <= window.innerHeight + 100) {
+        // very short page — do not auto-fire; user will scroll or we will show more via other means
+        return;
+      }
+      loadNextBatch();
+    }
+  }, { rootMargin: "0px", threshold: 0.01 });
+
+  observer.observe(sentinel);
+
+  // Scroll fallback (safety net) — respects loading & suspended flags
+  function scrollFallback() {
+    if (loading || suspended) return;
+    const threshold = document.body.offsetHeight - 160;
+    if (window.innerHeight + window.scrollY >= threshold) loadNextBatch();
+  }
+  window.addEventListener("scroll", scrollFallback, { passive: true });
+
+  function cleanup() {
+    try { observer.disconnect(); } catch (e) {}
+    window.removeEventListener("scroll", scrollFallback);
+    if (sentinel && sentinel.parentNode) sentinel.parentNode.removeChild(sentinel);
+    console.log("All batches loaded or no more tiles.");
+  }
+
+  // Safety: if content is extremely short and reveals everything on first paint,
+  // we can attempt to show more automatically but controlled (optional).
+  // This is intentionally conservative to avoid mass-loading many batches at once.
+});
 </script>
